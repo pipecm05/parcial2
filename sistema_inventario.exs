@@ -10,7 +10,7 @@ defmodule SistemaInventario do
   # ========== FUNCIONES DEL SISTEMA ==========
 
   def iniciar_sistema() do
-    IO.puts("🎯 SISTEMA DE GESTIÓN DE INVENTARIO")
+    IO.puts("SISTEMA DE GESTIÓN DE INVENTARIO")
     IO.puts("====================================")
     cargar_archivos()
     menu_principal()
@@ -20,12 +20,12 @@ defmodule SistemaInventario do
     # Crear archivos si no existen
     unless File.exists?("piezas.csv") do
       File.write!("piezas.csv", "")
-      IO.puts("📁 Archivo piezas.csv creado")
+      IO.puts(" Archivo piezas.csv creado")
     end
 
     unless File.exists?("movimientos.csv") do
       File.write!("movimientos.csv", "")
-      IO.puts("📁 Archivo movimientos.csv creado")
+      IO.puts(" Archivo movimientos.csv creado")
     end
 
     unless File.exists?("inventario_actual.csv") do
@@ -34,14 +34,14 @@ defmodule SistemaInventario do
   end
 
   defp menu_principal() do
-    IO.puts("\n📋 MENÚ PRINCIPAL")
-    IO.puts("1. 👀 Ver inventario actual")
-    IO.puts("2. 📦 Agregar nueva pieza")
-    IO.puts("3. 🔄 Realizar movimiento (ENTRADA/SALIDA)")
-    IO.puts("4. 📊 Consultar piezas con stock bajo")
-    IO.puts("5. 📈 Ver movimientos por rango de fechas")
-    IO.puts("6. 🗑️ Eliminar piezas duplicadas")
-    IO.puts("7. 💾 Guardar y salir")
+    IO.puts("\n MENÚ PRINCIPAL")
+    IO.puts("1.  Ver inventario actual")
+    IO.puts("2.  Agregar nueva pieza")
+    IO.puts("3.  Realizar movimiento (ENTRADA/SALIDA)")
+    IO.puts("4.  Consultar piezas con stock bajo")
+    IO.puts("5.  Ver movimientos por rango de fechas")
+    IO.puts("6.  Eliminar piezas duplicadas")
+    IO.puts("7.  Guardar y salir")
 
     case IO.gets("Seleccione una opción: ") |> String.trim() do
       "1" -> ver_inventario()
@@ -52,14 +52,14 @@ defmodule SistemaInventario do
       "6" -> eliminar_duplicados_menu()
       "7" -> guardar_y_salir()
       _ ->
-        IO.puts("❌ Opción inválida")
+        IO.puts(" Opción inválida")
         menu_principal()
     end
   end
 
   # ========== OPCIÓN 1: VER INVENTARIO ==========
   defp ver_inventario() do
-    IO.puts("\n📦 INVENTARIO ACTUAL")
+    IO.puts("\n INVENTARIO ACTUAL")
     IO.puts("===================")
 
     case leer_piezas("inventario_actual.csv") do
@@ -77,7 +77,7 @@ defmodule SistemaInventario do
         mostrar_piezas(piezas)
 
       {:error, razon} ->
-        IO.puts("❌ Error: #{razon}")
+        IO.puts(" Error: #{razon}")
     end
 
     menu_principal()
@@ -99,7 +99,7 @@ defmodule SistemaInventario do
 
   # ========== OPCIÓN 2: AGREGAR PIEZA ==========
   defp agregar_pieza() do
-    IO.puts("\n➕ AGREGAR NUEVA PIEZA")
+    IO.puts("\n AGREGAR NUEVA PIEZA")
     IO.puts("====================")
 
     codigo = IO.gets("Código: ") |> String.trim()
@@ -109,7 +109,7 @@ defmodule SistemaInventario do
     valor = case Integer.parse(valor_input) do
       {v, ""} -> v
       _ ->
-        IO.puts("❌ Valor inválido")
+        IO.puts(" Valor inválido")
         menu_principal()
         return_nothing()
     end
@@ -120,7 +120,7 @@ defmodule SistemaInventario do
     stock = case Integer.parse(stock_input) do
       {s, ""} -> s
       _ ->
-        IO.puts("❌ Stock inválido")
+        IO.puts("Stock inválido")
         menu_principal()
         return_nothing()
     end
@@ -137,16 +137,16 @@ defmodule SistemaInventario do
       {:ok, piezas_existentes} ->
         # Verificar si el código ya existe
         if Enum.any?(piezas_existentes, fn p -> p.codigo == codigo end) do
-          IO.puts("❌ Ya existe una pieza con ese código")
+          IO.puts(" Ya existe una pieza con ese código")
         else
           todas_las_piezas = [nueva_pieza | piezas_existentes]
           guardar_piezas(todas_las_piezas, "piezas.csv")
-          IO.puts("✅ Pieza agregada exitosamente")
+          IO.puts(" Pieza agregada exitosamente")
         end
 
       {:error, _} ->
         guardar_piezas([nueva_pieza], "piezas.csv")
-        IO.puts("✅ Pieza agregada exitosamente")
+        IO.puts(" Pieza agregada exitosamente")
     end
 
     menu_principal()
@@ -156,7 +156,7 @@ defmodule SistemaInventario do
 
   # ========== OPCIÓN 3: REALIZAR MOVIMIENTO ==========
   defp realizar_movimiento() do
-    IO.puts("\n🔄 REALIZAR MOVIMIENTO")
+    IO.puts("\n REALIZAR MOVIMIENTO")
     IO.puts("====================")
 
     codigo = IO.gets("Código de pieza: ") |> String.trim()
@@ -164,7 +164,7 @@ defmodule SistemaInventario do
     tipo_input = IO.gets("Tipo (ENTRADA/SALIDA): ") |> String.trim() |> String.upcase()
 
     unless tipo_input in ["ENTRADA", "SALIDA"] do
-      IO.puts("❌ Tipo debe ser ENTRADA o SALIDA")
+      IO.puts(" Tipo debe ser ENTRADA o SALIDA")
       menu_principal()
       return_nothing()
     end
@@ -173,7 +173,7 @@ defmodule SistemaInventario do
     cantidad = case Integer.parse(cantidad_input) do
       {c, ""} when c > 0 -> c
       _ ->
-        IO.puts("❌ Cantidad inválida")
+        IO.puts(" Cantidad inválida")
         menu_principal()
         return_nothing()
     end
@@ -182,7 +182,7 @@ defmodule SistemaInventario do
 
     # Validar formato de fecha simple
     unless String.match?(fecha, ~r/^\d{4}-\d{2}-\d{2}$/) do
-      IO.puts("❌ Formato de fecha inválido. Use YYYY-MM-DD")
+      IO.puts(" Formato de fecha inválido. Use YYYY-MM-DD")
       menu_principal()
       return_nothing()
     end
@@ -202,7 +202,7 @@ defmodule SistemaInventario do
         guardar_movimientos([nuevo_movimiento], "movimientos.csv")
     end
 
-    IO.puts("✅ Movimiento registrado exitosamente")
+    IO.puts(" Movimiento registrado exitosamente")
 
     # Actualizar inventario
     actualizar_inventario()
@@ -212,14 +212,14 @@ defmodule SistemaInventario do
 
   # ========== OPCIÓN 4: CONSULTAR STOCK BAJO ==========
   defp consultar_stock_bajo() do
-    IO.puts("\n📊 CONSULTAR STOCK BAJO")
+    IO.puts("\n CONSULTAR STOCK BAJO")
     IO.puts("======================")
 
     umbral_input = IO.gets("Umbral de stock bajo: ") |> String.trim()
     umbral = case Integer.parse(umbral_input) do
       {u, ""} when u > 0 -> u
       _ ->
-        IO.puts("❌ Umbral inválido")
+        IO.puts(" Umbral inválido")
         menu_principal()
         return_nothing()
     end
@@ -229,9 +229,9 @@ defmodule SistemaInventario do
         piezas_bajas = Enum.filter(piezas, fn p -> p.stock < umbral end)
 
         if piezas_bajas == [] do
-          IO.puts("✅ No hay piezas con stock por debajo de #{umbral}")
+          IO.puts(" No hay piezas con stock por debajo de #{umbral}")
         else
-          IO.puts("⚠️ Piezas con stock bajo (#{umbral}):")
+          IO.puts(" Piezas con stock bajo (#{umbral}):")
           mostrar_piezas(piezas_bajas)
 
           cantidad = contar_stock_bajo(piezas, umbral)
@@ -239,7 +239,7 @@ defmodule SistemaInventario do
         end
 
       {:error, razon} ->
-        IO.puts("❌ Error: #{razon}")
+        IO.puts(" Error: #{razon}")
     end
 
     menu_principal()
@@ -247,7 +247,7 @@ defmodule SistemaInventario do
 
   # ========== OPCIÓN 5: MOVIMIENTOS POR FECHA ==========
   defp movimientos_por_fecha() do
-    IO.puts("\n📈 MOVIMIENTOS POR RANGO DE FECHAS")
+    IO.puts("\n MOVIMIENTOS POR RANGO DE FECHAS")
     IO.puts("==================================")
 
     fecha_inicio = IO.gets("Fecha inicio (YYYY-MM-DD): ") |> String.trim()
@@ -257,7 +257,7 @@ defmodule SistemaInventario do
       {:ok, movimientos} ->
         total = cantidad_movida_rango(movimientos, {fecha_inicio, fecha_fin})
 
-        IO.puts("\n📊 RESUMEN DE MOVIMIENTOS")
+        IO.puts("\n RESUMEN DE MOVIMIENTOS")
         IO.puts("Rango: #{fecha_inicio} a #{fecha_fin}")
         IO.puts("Total de unidades movidas: #{total}")
 
@@ -267,14 +267,14 @@ defmodule SistemaInventario do
         end)
 
         if movimientos_rango != [] do
-          IO.puts("\n📋 Movimientos en el rango:")
+          IO.puts("\n Movimientos en el rango:")
           Enum.each(movimientos_rango, fn m ->
             IO.puts("  #{m.fecha} - #{m.codigo} - #{m.tipo} - #{m.cantidad}")
           end)
         end
 
       {:error, razon} ->
-        IO.puts("❌ Error: #{razon}")
+        IO.puts(" Error: #{razon}")
     end
 
     menu_principal()
@@ -282,7 +282,7 @@ defmodule SistemaInventario do
 
   # ========== OPCIÓN 6: ELIMINAR DUPLICADOS ==========
   defp eliminar_duplicados_menu() do
-    IO.puts("\n🗑️ ELIMINAR PIEZAS DUPLICADAS")
+    IO.puts("\n ELIMINAR PIEZAS DUPLICADAS")
     IO.puts("===========================")
 
     case leer_piezas("piezas.csv") do
@@ -290,16 +290,16 @@ defmodule SistemaInventario do
         piezas_sin_duplicados = eliminar_duplicados(piezas)
 
         if length(piezas_sin_duplicados) == length(piezas) do
-          IO.puts("✅ No se encontraron duplicados")
+          IO.puts(" No se encontraron duplicados")
         else
           guardar_piezas(piezas_sin_duplicados, "piezas.csv")
-          IO.puts("✅ Duplicados eliminados")
+          IO.puts(" Duplicados eliminados")
           IO.puts("Piezas antes: #{length(piezas)}")
           IO.puts("Piezas después: #{length(piezas_sin_duplicados)}")
         end
 
       {:error, razon} ->
-        IO.puts("❌ Error: #{razon}")
+        IO.puts(" Error: #{razon}")
     end
 
     menu_principal()
@@ -307,10 +307,10 @@ defmodule SistemaInventario do
 
   # ========== OPCIÓN 7: GUARDAR Y SALIR ==========
   defp guardar_y_salir() do
-    IO.puts("\n💾 GUARDANDO DATOS...")
+    IO.puts("\n GUARDANDO DATOS...")
     actualizar_inventario()
-    IO.puts("✅ Datos guardados exitosamente")
-    IO.puts("👋 ¡Hasta pronto!")
+    IO.puts(" Datos guardados exitosamente")
+    IO.puts(" ¡Hasta pronto!")
     System.halt(0)
   end
 
@@ -470,3 +470,4 @@ end
 
 # Iniciar el sistema
 SistemaInventario.iniciar_sistema()
+
