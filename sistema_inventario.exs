@@ -7,7 +7,6 @@ defmodule SistemaInventario do
     defstruct codigo: "", tipo: "", cantidad: 0, fecha: ""
   end
 
-  # ========== FUNCIONES DEL SISTEMA ==========
 
   def iniciar_sistema() do
     IO.puts("SISTEMA DE GESTIÓN DE INVENTARIO")
@@ -57,7 +56,6 @@ defmodule SistemaInventario do
     end
   end
 
-  # ========== OPCIÓN 1: VER INVENTARIO ==========
   defp ver_inventario() do
     IO.puts("\n INVENTARIO ACTUAL")
     IO.puts("===================")
@@ -97,7 +95,6 @@ defmodule SistemaInventario do
     IO.puts("Total de piezas: #{length(piezas)}")
   end
 
-  # ========== OPCIÓN 2: AGREGAR PIEZA ==========
   defp agregar_pieza() do
     IO.puts("\n AGREGAR NUEVA PIEZA")
     IO.puts("====================")
@@ -154,7 +151,6 @@ defmodule SistemaInventario do
 
   defp return_nothing(), do: nil
 
-  # ========== OPCIÓN 3: REALIZAR MOVIMIENTO ==========
   defp realizar_movimiento() do
     IO.puts("\n REALIZAR MOVIMIENTO")
     IO.puts("====================")
@@ -210,7 +206,6 @@ defmodule SistemaInventario do
     menu_principal()
   end
 
-  # ========== OPCIÓN 4: CONSULTAR STOCK BAJO ==========
   defp consultar_stock_bajo() do
     IO.puts("\n CONSULTAR STOCK BAJO")
     IO.puts("======================")
@@ -245,7 +240,6 @@ defmodule SistemaInventario do
     menu_principal()
   end
 
-  # ========== OPCIÓN 5: MOVIMIENTOS POR FECHA ==========
   defp movimientos_por_fecha() do
     IO.puts("\n MOVIMIENTOS POR RANGO DE FECHAS")
     IO.puts("==================================")
@@ -280,7 +274,6 @@ defmodule SistemaInventario do
     menu_principal()
   end
 
-  # ========== OPCIÓN 6: ELIMINAR DUPLICADOS ==========
   defp eliminar_duplicados_menu() do
     IO.puts("\n ELIMINAR PIEZAS DUPLICADAS")
     IO.puts("===========================")
@@ -305,7 +298,6 @@ defmodule SistemaInventario do
     menu_principal()
   end
 
-  # ========== OPCIÓN 7: GUARDAR Y SALIR ==========
   defp guardar_y_salir() do
     IO.puts("\n GUARDANDO DATOS...")
     actualizar_inventario()
@@ -314,7 +306,6 @@ defmodule SistemaInventario do
     System.halt(0)
   end
 
-  # ========== FUNCIONES DE ARCHIVOS (DEL PARCIAL) ==========
 
   def leer_piezas(nombre_archivo) do
     case File.read(nombre_archivo) do
@@ -421,7 +412,7 @@ defmodule SistemaInventario do
     end)
   end
 
-  # ========== FUNCIONES RECURSIVAS (DEL PARCIAL) ==========
+  # Funciones recursivas
 
   def contar_stock_bajo(piezas, t) do
     contar_stock_bajo_rec(piezas, t, 0)
@@ -470,4 +461,3 @@ end
 
 # Iniciar el sistema
 SistemaInventario.iniciar_sistema()
-
